@@ -1,0 +1,12 @@
+# Local MCP workspace and game assets
+/mcp/
+/jars/
+/run/
+/build/
+/reobf/
+*.class
+*.jar
+*.log
+.idea/
+.vscode/
+*.iml
