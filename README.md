@@ -6,7 +6,7 @@ BetaPlus is a planned client-side quality-of-life mod for Minecraft Java Edition
 
 ## Minimap and controls
 
-The map displays sampled top block textures, the player arrow, and cardinal directions. It hides while an inventory or other screen is open or the HUD is hidden. Sampling is limited to 96 columns per world tick and only queries loaded chunks. The cache clears on a world change.
+The map displays sampled terrain using Beta's map colors and simple height shading, a pixel-style player arrow, and cardinal directions. It hides while an inventory or other screen is open or the HUD is hidden. Sampling is limited to 96 columns per world tick and only queries loaded chunks. A world-coordinate cache reuses samples as the player moves and clears on a world change.
 
 Default controls are **M** to toggle, **=** to zoom in, and **-** to zoom out. These are registered with ModLoader and can also appear in the game's control settings. Automated key testing has not yet confirmed their behavior.
 
