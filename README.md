@@ -2,7 +2,19 @@
 
 BetaPlus is a planned client-side quality-of-life mod for Minecraft Java Edition Beta 1.7.3. Its first release is intended to include a minimap, waypoints, coordinates, death markers, and configurable controls.
 
-**Status: development smoke test.** A minimal ModLoader entry point compiles and has been discovered on client startup. No gameplay features or release are available yet.
+**Status: 0.2 development preview.** A north-up surface minimap is implemented. It has been seen in a local single-player development client; control, performance, multiplayer, and installed-build testing remain incomplete. No release is available yet.
+
+## Minimap and controls
+
+The map displays sampled top block textures, the player arrow, and cardinal directions. It hides while an inventory or other screen is open or the HUD is hidden. Sampling is limited to 96 columns per world tick and only queries loaded chunks. The cache clears on a world change.
+
+Default controls are **M** to toggle, **=** to zoom in, and **-** to zoom out. These are registered with ModLoader and can also appear in the game's control settings. Automated key testing has not yet confirmed their behavior.
+
+Settings are created in the instance's `config/BetaPlus.properties`. Edit them with the game closed: `enabled` is true or false; `size` is 64–160 GUI pixels; `zoom` is 1, 2, or 4 blocks per sample; `position` is `top-right`, `top-left`, `bottom-right`, or `bottom-left`; `opacity` is 0.2–1.0; `key` is an LWJGL 2 numeric key code (default 50, M). Changes to the file take effect on restart. Toggle and zoom changes are saved automatically.
+
+## Installation
+
+No tested installable release is available. Development builds produce three reobfuscated classes in `mcp/minecraft/reobf`; a normal-launcher installation still needs verification with the matching Beta 1.7.3 ModLoader before release.
 
 ## Development approach
 
@@ -21,14 +33,14 @@ Reference: [Beta 1.7.3 MCP setup](https://emberden.github.io/mcp.html) and [MCP 
 
 ### Current local smoke-test workspace
 
-The ignored `mcp/` directory contains RetroMCP, an isolated Java 8 JDK, and a copy of the Beta client with the ModLoader fix applied. From PowerShell in that directory, copy `../src/net/minecraft/src/mod_BetaPlus.java` into `minecraft/src/net/minecraft/src/`, then run:
+The ignored `mcp/` directory contains RetroMCP, an isolated Java 8 JDK, and a copy of the Beta client with the ModLoader fix applied. From PowerShell in that directory, copy all `../src/net/minecraft/src/*.java` into `minecraft/src/net/minecraft/src/`, then run:
 
 ```powershell
 & .\jdk\jdk8u504-b01\bin\java.exe -jar .\downloads\RetroMCP-Java-CLI.jar recompile
 & .\jdk\jdk8u504-b01\bin\java.exe -jar .\downloads\RetroMCP-Java-CLI.jar reobfuscate
 ```
 
-The reobfuscated test class is `minecraft/reobf/mod_BetaPlus.class`. For the development launch, copy the compiled class from `minecraft/bin/net/minecraft/src/` to `minecraft/game/mods/BetaPlus/net/minecraft/src/` and run `& .\jdk\jdk8u504-b01\bin\java.exe -jar .\downloads\RetroMCP-Java-CLI.jar start client`. The mods-folder copy is needed because ModLoader's development directory scan does not discover the class automatically. This local workspace is not a reproducible setup script or an installation package yet.
+For the development launch, copy `mod_BetaPlus.class` and both `BetaPlus*.class` files from `minecraft/bin/net/minecraft/src/` to `minecraft/game/mods/BetaPlus/net/minecraft/src/` and run `& .\jdk\jdk8u504-b01\bin\java.exe -jar .\downloads\RetroMCP-Java-CLI.jar start client`. The mods-folder copy is needed because ModLoader's development directory scan does not discover the class automatically. This local workspace is not a reproducible setup script or an installation package yet.
 
 ## Planned design
 
@@ -41,5 +53,7 @@ No screenshots yet.
 ## Known issues
 
 - The development smoke test used RetroMCP's development launcher; an installed, reobfuscated build has not yet been tested.
-- There is no installable build, configuration menu, or release yet.
+- Zoom and toggle controls, movement, turning, and performance still need thorough playtesting. Fast movement can leave temporary gaps while the cache catches up.
+- The surface sampler is approximate: tall foliage, transparent blocks, caves and the Nether may not be represented accurately. Unloaded chunks remain blank.
+- There is no tested installable build, configuration menu, or release yet.
 - Compatibility with other mods and multiplayer is untested.
