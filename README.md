@@ -6,9 +6,9 @@ BetaPlus is a planned client-side quality-of-life mod for Minecraft Java Edition
 
 ## Minimap and controls
 
-The map displays sampled terrain using Beta's map colors and simple height shading, a pixel-style player arrow, and cardinal directions. The coordinates and facing readout uses Minecraft's font beneath the map (or above it when the map is at the bottom of the screen). Both hide while a screen or the F3 debug display is open, or the HUD is hidden. The map uses a 64-by-64 sample grid; sampling is limited to 96 columns per world tick and only queries loaded chunks. A world-coordinate cache reuses samples as the player moves and clears on a world change. Newly revealed areas can take a little time to fill in.
+The map displays sampled terrain using Beta's map colors and simple height shading, a pixel-style player arrow, and cardinal directions. The coordinate readout uses Minecraft's font beneath the map (or above it when the map is at the bottom of the screen). Both hide while a screen or the F3 debug display is open, or the HUD is hidden. The map uses a 64-by-64 sample grid; sampling is limited to 96 columns per world tick and only queries loaded chunks. A world-coordinate cache reuses samples as the player moves and clears on a world change. Newly revealed areas can take a little time to fill in.
 
-Default controls are **M** to toggle the map, **=** to zoom in, **-** to zoom out, and **C** to toggle coordinates and facing. These are registered with ModLoader and can also appear in the game's control settings. Automated key testing has not yet confirmed their behavior.
+Default controls are **M** to toggle the map, **=** to zoom in, **-** to zoom out, and **C** to toggle coordinates. These are registered with ModLoader and can also appear in the game's control settings. Automated key testing has not yet confirmed their behavior.
 
 Settings are created in the instance's `config/BetaPlus.properties`. Edit them with the game closed: `enabled` and `coordinates` are true or false; `size` is 40–160 GUI pixels; `zoom` is 1, 2, or 4 blocks per sample; `position` is `top-right`, `top-left`, `bottom-right`, or `bottom-left`; `opacity` is 0.2–1.0; `key` is an LWJGL 2 numeric key code (default 50, M). Changes to the file take effect on restart. Toggle and zoom changes are saved automatically.
 

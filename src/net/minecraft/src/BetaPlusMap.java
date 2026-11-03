@@ -113,10 +113,19 @@ final class BetaPlusMap extends Gui {
             }
             GL11.glPopMatrix();
             GL11.glEnable(GL11.GL_TEXTURE_2D); GL11.glEnable(GL11.GL_ALPHA_TEST); GL11.glColor4f(1, 1, 1, 1);
-            mc.fontRenderer.drawStringWithShadow("N", mx - 3, y + 2, 0xFFFFFF); mc.fontRenderer.drawStringWithShadow("S", mx - 3, y + size - 10, 0xFFFFFF);
-            mc.fontRenderer.drawStringWithShadow("W", x + 2, my - 4, 0xFFFFFF); mc.fontRenderer.drawStringWithShadow("E", x + size - 8, my - 4, 0xFFFFFF);
+            drawCompass(mc, "N", mx, y + 2); drawCompass(mc, "S", mx, y + size - 8);
+            drawCompass(mc, "W", x + 5, my - 3); drawCompass(mc, "E", x + size - 5, my - 3);
         } finally {
             GL11.glMatrixMode(GL11.GL_MODELVIEW); GL11.glPopMatrix(); GL11.glMatrixMode(GL11.GL_PROJECTION); GL11.glPopMatrix(); GL11.glPopAttrib();
         }
+    }
+    private void drawCompass(Minecraft mc, String label, int centerX, int top) {
+        float scale = 0.75F;
+        GL11.glPushMatrix();
+        try {
+            GL11.glTranslatef(centerX - mc.fontRenderer.getStringWidth(label) * scale / 2.0F, top, 0);
+            GL11.glScalef(scale, scale, 1);
+            mc.fontRenderer.drawStringWithShadow(label, 0, 0, 0xFFFFFF);
+        } finally { GL11.glPopMatrix(); }
     }
 }

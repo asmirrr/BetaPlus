@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Reduced the compass label size and removed the redundant direction from the smaller coordinate readout.
+
 - Set the default minimap size to 70 by 70 GUI pixels.
 
 - Reduced the default minimap to 50 by 50 GUI pixels, with configurable sizes down to 40 pixels.
