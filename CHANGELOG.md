@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Moved the coordinates readout beneath the minimap and expanded the terrain sample grid for a more detailed, wider view.
+
 ### 0.3.0-dev
 
 - Added a toggleable coordinates and facing HUD, interpolated map scrolling, and a black-outlined pixel player indicator. Sustained movement and keybind testing are still pending.

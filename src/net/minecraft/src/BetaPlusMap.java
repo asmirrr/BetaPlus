@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL11;
 
 /** Bounded north-up surface map, keyed by world column. */
 final class BetaPlusMap extends Gui {
-    private static final int GRID = 32, SAMPLE_GRID = 34, SLOTS = 65536, BUDGET = 96;
+    private static final int GRID = 64, SAMPLE_GRID = 66, SLOTS = 262144, BUDGET = 96;
     private final int[] xs = new int[SLOTS], zs = new int[SLOTS], colors = new int[SLOTS], heights = new int[SLOTS];
     private final boolean[] valid = new boolean[SLOTS];
     private final BetaPlusConfig config;
@@ -60,7 +60,7 @@ final class BetaPlusMap extends Gui {
         xs[s] = x; zs[s] = z; heights[s] = 0; colors[s] = 0x202020; valid[s] = true;
     }
     private static int align(int value, int zoom) { return MathHelper.floor_double((double)value / zoom) * zoom; }
-    private int slot(int x, int z) { return (x & 255) | ((z & 255) << 8); }
+    private int slot(int x, int z) { return (x & 511) | ((z & 511) << 9); }
     void draw(Minecraft mc) {
         ScaledResolution screen = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
         int size = Math.min(config.size, Math.min(screen.getScaledWidth() - 20, screen.getScaledHeight() - 20));
