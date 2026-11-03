@@ -59,7 +59,13 @@ Terrain sampling will be bounded and cached, with unloaded chunks left unknown. 
 
 ## Screenshots
 
-No screenshots yet.
+BetaPlus in a Beta 1.7.3 test world:
+
+![BetaPlus minimap and coordinates during gameplay](docs/screenshots/betaplus-gameplay.jpg)
+
+Minimap and coordinates detail (cropped from the same screenshot):
+
+![Close-up of the minimap and coordinates](docs/screenshots/betaplus-minimap-detail.png)
 
 ## Known issues
 
