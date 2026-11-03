@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### 0.3.0-dev
+
+- Added a toggleable coordinates and facing HUD, interpolated map scrolling, and a black-outlined pixel player indicator. Sustained movement and keybind testing are still pending.
+
 - Reworked minimap caching to avoid hash collisions and retain sampled columns while moving. Switched terrain to Beta's map colors and added a pixel-style directional marker.
 
 ### 0.2.0-dev

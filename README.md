@@ -2,19 +2,19 @@
 
 BetaPlus is a planned client-side quality-of-life mod for Minecraft Java Edition Beta 1.7.3. Its first release is intended to include a minimap, waypoints, coordinates, death markers, and configurable controls.
 
-**Status: 0.2 development preview.** A north-up surface minimap is implemented. It has been seen in a local single-player development client; control, performance, multiplayer, and installed-build testing remain incomplete. No release is available yet.
+**Status: 0.3 development preview.** A north-up surface minimap and coordinates HUD are implemented. They have been seen in a local single-player development client; control, sustained movement, performance, multiplayer, and installed-build testing remain incomplete. No release is available yet.
 
 ## Minimap and controls
 
 The map displays sampled terrain using Beta's map colors and simple height shading, a pixel-style player arrow, and cardinal directions. It hides while an inventory or other screen is open or the HUD is hidden. Sampling is limited to 96 columns per world tick and only queries loaded chunks. A world-coordinate cache reuses samples as the player moves and clears on a world change.
 
-Default controls are **M** to toggle, **=** to zoom in, and **-** to zoom out. These are registered with ModLoader and can also appear in the game's control settings. Automated key testing has not yet confirmed their behavior.
+Default controls are **M** to toggle the map, **=** to zoom in, **-** to zoom out, and **C** to toggle coordinates and facing. These are registered with ModLoader and can also appear in the game's control settings. Automated key testing has not yet confirmed their behavior.
 
-Settings are created in the instance's `config/BetaPlus.properties`. Edit them with the game closed: `enabled` is true or false; `size` is 64–160 GUI pixels; `zoom` is 1, 2, or 4 blocks per sample; `position` is `top-right`, `top-left`, `bottom-right`, or `bottom-left`; `opacity` is 0.2–1.0; `key` is an LWJGL 2 numeric key code (default 50, M). Changes to the file take effect on restart. Toggle and zoom changes are saved automatically.
+Settings are created in the instance's `config/BetaPlus.properties`. Edit them with the game closed: `enabled` and `coordinates` are true or false; `size` is 64–160 GUI pixels; `zoom` is 1, 2, or 4 blocks per sample; `position` is `top-right`, `top-left`, `bottom-right`, or `bottom-left`; `opacity` is 0.2–1.0; `key` is an LWJGL 2 numeric key code (default 50, M). Changes to the file take effect on restart. Toggle and zoom changes are saved automatically.
 
 ## Installation
 
-No tested installable release is available. Development builds produce three reobfuscated classes in `mcp/minecraft/reobf`; a normal-launcher installation still needs verification with the matching Beta 1.7.3 ModLoader before release.
+No tested installable release is available. Development builds produce the reobfuscated mod classes in `mcp/minecraft/reobf`; a normal-launcher installation still needs verification with the matching Beta 1.7.3 ModLoader before release.
 
 ## Development approach
 

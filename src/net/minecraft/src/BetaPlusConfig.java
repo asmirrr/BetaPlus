@@ -9,6 +9,7 @@ import org.lwjgl.input.Keyboard;
 
 final class BetaPlusConfig {
     boolean enabled = true;
+    boolean coordinates = true;
     int size = 96, zoom = 2, key = Keyboard.KEY_M;
     float opacity = 0.9F;
     String position = "top-right";
@@ -18,6 +19,7 @@ final class BetaPlusConfig {
         try {
             if (file.isFile()) { FileInputStream in = new FileInputStream(file); try { p.load(in); } finally { in.close(); } }
             enabled = Boolean.parseBoolean(p.getProperty("enabled", "true"));
+            coordinates = Boolean.parseBoolean(p.getProperty("coordinates", "true"));
             size = clamp(integer(p, "size", 96), 64, 160);
             int z = integer(p, "zoom", 2); zoom = z == 1 || z == 2 || z == 4 ? z : 2;
             key = clamp(integer(p, "key", Keyboard.KEY_M), 1, 255);
@@ -32,6 +34,7 @@ final class BetaPlusConfig {
     void save() {
         Properties p = new Properties();
         p.setProperty("enabled", Boolean.toString(enabled)); p.setProperty("size", Integer.toString(size));
+        p.setProperty("coordinates", Boolean.toString(coordinates));
         p.setProperty("zoom", Integer.toString(zoom)); p.setProperty("position", position);
         p.setProperty("opacity", Float.toString(opacity)); p.setProperty("key", Integer.toString(key));
         try { file.getParentFile().mkdirs(); FileOutputStream out = new FileOutputStream(file); try { p.store(out, "BetaPlus settings; key is an LWJGL 2 key code"); } finally { out.close(); } }

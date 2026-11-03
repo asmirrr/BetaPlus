@@ -6,12 +6,13 @@ import org.lwjgl.opengl.GL11;
 
 /** Bounded north-up surface map, keyed by world column. */
 final class BetaPlusMap extends Gui {
-    private static final int GRID = 32, SLOTS = 65536, BUDGET = 96;
+    private static final int GRID = 32, SAMPLE_GRID = 34, SLOTS = 65536, BUDGET = 96;
     private final int[] xs = new int[SLOTS], zs = new int[SLOTS], colors = new int[SLOTS], heights = new int[SLOTS];
     private final boolean[] valid = new boolean[SLOTS];
     private final BetaPlusConfig config;
     private World world;
     private long lastTick = Long.MIN_VALUE;
+    private long tickStarted;
     private int cursor;
     BetaPlusMap(BetaPlusConfig config) { this.config = config; }
 
@@ -20,22 +21,23 @@ final class BetaPlusMap extends Gui {
         long tick = world.getWorldTime();
         if (tick == lastTick) return;
         lastTick = tick;
+        tickStarted = System.nanoTime();
         int cx = align(MathHelper.floor_double(mc.thePlayer.posX), config.zoom);
         int cz = align(MathHelper.floor_double(mc.thePlayer.posZ), config.zoom);
         int used = 0;
         // Fill missing visible columns first, then refresh existing ones over time.
-        for (int i = 0; i < GRID * GRID && used < BUDGET; i++) {
-            int cell = (cursor + i) % (GRID * GRID);
-            int x = cx + (cell % GRID - GRID / 2) * config.zoom;
-            int z = cz + (cell / GRID - GRID / 2) * config.zoom;
+        for (int i = 0; i < SAMPLE_GRID * SAMPLE_GRID && used < BUDGET; i++) {
+            int cell = (cursor + i) % (SAMPLE_GRID * SAMPLE_GRID);
+            int x = cx + (cell % SAMPLE_GRID - SAMPLE_GRID / 2) * config.zoom;
+            int z = cz + (cell / SAMPLE_GRID - SAMPLE_GRID / 2) * config.zoom;
             int s = slot(x, z);
             if ((!valid[s] || xs[s] != x || zs[s] != z) && world.blockExists(x, 64, z)) {
                 sample(x, z, s); used++;
             }
         }
         for (int i = 0; i < BUDGET - used; i++) {
-            int cell = cursor++ % (GRID * GRID);
-            int x = cx + (cell % GRID - GRID / 2) * config.zoom, z = cz + (cell / GRID - GRID / 2) * config.zoom;
+            int cell = cursor++ % (SAMPLE_GRID * SAMPLE_GRID);
+            int x = cx + (cell % SAMPLE_GRID - SAMPLE_GRID / 2) * config.zoom, z = cz + (cell / SAMPLE_GRID - SAMPLE_GRID / 2) * config.zoom;
             if (!world.blockExists(x, 64, z)) continue;
             sample(x, z, slot(x, z));
         }
@@ -66,6 +68,12 @@ final class BetaPlusMap extends Gui {
         int x = config.position.endsWith("right") ? screen.getScaledWidth() - size - 8 : 8;
         int y = config.position.startsWith("bottom") ? screen.getScaledHeight() - size - 8 : 8;
         int cx = align(MathHelper.floor_double(mc.thePlayer.posX), config.zoom), cz = align(MathHelper.floor_double(mc.thePlayer.posZ), config.zoom);
+        double partial = Math.max(0.0, Math.min(1.0, (System.nanoTime() - tickStarted) / 50000000.0));
+        double playerX = mc.thePlayer.prevPosX + (mc.thePlayer.posX - mc.thePlayer.prevPosX) * partial;
+        double playerZ = mc.thePlayer.prevPosZ + (mc.thePlayer.posZ - mc.thePlayer.prevPosZ) * partial;
+        double cellSize = size / (double)GRID;
+        double offsetX = (playerX - cx) / config.zoom * cellSize;
+        double offsetZ = (playerZ - cz) / config.zoom * cellSize;
         GL11.glPushAttrib(GL11.GL_ALL_ATTRIB_BITS);
         GL11.glMatrixMode(GL11.GL_PROJECTION); GL11.glPushMatrix();
         GL11.glMatrixMode(GL11.GL_MODELVIEW); GL11.glPushMatrix();
@@ -75,30 +83,34 @@ final class BetaPlusMap extends Gui {
             drawRect(x, y, x + size, y + size, 0xC0101010);
             GL11.glDisable(GL11.GL_TEXTURE_2D); GL11.glDisable(GL11.GL_LIGHTING); GL11.glDisable(GL11.GL_ALPHA_TEST); GL11.glEnable(GL11.GL_BLEND);
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+            int left = x * mc.displayWidth / screen.getScaledWidth();
+            int right = (x + size) * mc.displayWidth / screen.getScaledWidth();
+            int bottom = (screen.getScaledHeight() - y - size) * mc.displayHeight / screen.getScaledHeight();
+            int top = (screen.getScaledHeight() - y) * mc.displayHeight / screen.getScaledHeight();
+            GL11.glEnable(GL11.GL_SCISSOR_TEST); GL11.glScissor(left, bottom, right - left, top - bottom);
             Tessellator t = Tessellator.instance; t.startDrawingQuads();
-            for (int row = 0; row < GRID; row++) for (int col = 0; col < GRID; col++) {
-                int wx = cx + (col - GRID / 2) * config.zoom, wz = cz + (row - GRID / 2) * config.zoom, s = slot(wx, wz);
+            for (int row = 0; row < SAMPLE_GRID; row++) for (int col = 0; col < SAMPLE_GRID; col++) {
+                int wx = cx + (col - SAMPLE_GRID / 2) * config.zoom, wz = cz + (row - SAMPLE_GRID / 2) * config.zoom, s = slot(wx, wz);
                 if (!valid[s] || xs[s] != wx || zs[s] != wz) continue;
                 int north = slot(wx, wz - config.zoom);
                 int shade = valid[north] && xs[north] == wx && zs[north] == wz - config.zoom
                     ? (heights[s] > heights[north] ? 255 : heights[s] < heights[north] ? 180 : 220) : 220;
                 int color = colors[s];
                 t.setColorRGBA((color >> 16 & 255) * shade / 255, (color >> 8 & 255) * shade / 255, (color & 255) * shade / 255, (int)(config.opacity * 255));
-                double x0 = x + col * size / (double)GRID, x1 = x + (col + 1) * size / (double)GRID;
-                double y0 = y + row * size / (double)GRID, y1 = y + (row + 1) * size / (double)GRID;
+                double x0 = x + size / 2.0 + (col - SAMPLE_GRID / 2 - 0.5) * cellSize - offsetX, x1 = x0 + cellSize;
+                double y0 = y + size / 2.0 + (row - SAMPLE_GRID / 2 - 0.5) * cellSize - offsetZ, y1 = y0 + cellSize;
                 t.addVertex(x0, y1, 0); t.addVertex(x1, y1, 0); t.addVertex(x1, y0, 0); t.addVertex(x0, y0, 0);
             }
             t.draw();
+            GL11.glDisable(GL11.GL_SCISSOR_TEST);
             int mx = x + size / 2, my = y + size / 2;
             GL11.glPushMatrix();
             GL11.glTranslatef(mx, my, 0); GL11.glRotatef(mc.thePlayer.rotationYaw + 180.0F, 0, 0, 1);
-            String[] marker = {"...#...", "...#...", "..###..", "..###..", ".#####.", ".#####.", "###.###"};
-            for (int row = 0; row < marker.length; row++) for (int col = 0; col < 7; col++) {
-                if (marker[row].charAt(col) == '#') drawRect(col - 3, row - 4, col - 2, row - 3, 0xFF202020);
+            String[] marker = {"....#....", "...###...", "...#W#...", "..##W##..", "..#WWW#..", ".##WWW##.", ".#WWWWW#.", "##WW#WW##", "##W###W##", ".###.###."};
+            for (int row = 0; row < marker.length; row++) for (int col = 0; col < 9; col++) {
+                char pixel = marker[row].charAt(col);
+                if (pixel != '.') drawRect(col - 4, row - 5, col - 3, row - 4, pixel == '#' ? 0xFF000000 : 0xFFFFFFFF);
             }
-            drawRect(0, -3, 1, 1, 0xFFFFFFFF);
-            drawRect(-1, -1, 2, 1, 0xFFFFFFFF);
-            drawRect(-2, 1, 3, 2, 0xFFFFFFFF);
             GL11.glPopMatrix();
             GL11.glEnable(GL11.GL_TEXTURE_2D); GL11.glEnable(GL11.GL_ALPHA_TEST); GL11.glColor4f(1, 1, 1, 1);
             mc.fontRenderer.drawStringWithShadow("N", mx - 3, y + 2, 0xFFFFFF); mc.fontRenderer.drawStringWithShadow("S", mx - 3, y + size - 10, 0xFFFFFF);
