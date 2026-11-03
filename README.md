@@ -12,7 +12,7 @@ Default controls are **M** to toggle the map, **=** to zoom in, **-** to zoom ou
 
 Settings are created in the instance's `config/BetaPlus.properties`. Edit them with the game closed: `enabled` and `coordinates` are true or false; `size` is 40–160 GUI pixels; `zoom` is 1, 2, or 4 blocks per sample; `position` is `top-right`, `top-left`, `bottom-right`, or `bottom-left`; `opacity` is 0.2–1.0; `key` is an LWJGL 2 numeric key code (default 50, M). Changes to the file take effect on restart. Toggle and zoom changes are saved automatically.
 
-The default map size is 50 pixels. On upgrading, previous default sizes of 80 or 96 pixels are changed once to the new default; other sizes are retained. You can set it back after that migration.
+The default map size is 70 pixels. On upgrading, previous default sizes of 50, 80, or 96 pixels are changed once to the new default; other sizes are retained. You can set it back after that migration.
 
 ## Installation
 

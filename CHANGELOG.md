@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Set the default minimap size to 70 by 70 GUI pixels.
+
 - Reduced the default minimap to 50 by 50 GUI pixels, with configurable sizes down to 40 pixels.
 
 - Reduced the default minimap size to 80 pixels and hide the minimap and coordinates while F3 debug information is displayed.

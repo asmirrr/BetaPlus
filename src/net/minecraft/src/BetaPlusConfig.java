@@ -10,7 +10,7 @@ import org.lwjgl.input.Keyboard;
 final class BetaPlusConfig {
     boolean enabled = true;
     boolean coordinates = true;
-    int size = 50, zoom = 2, key = Keyboard.KEY_M;
+    int size = 70, zoom = 2, key = Keyboard.KEY_M;
     float opacity = 0.9F;
     String position = "top-right";
     private final File file = new File(Minecraft.getMinecraftDir(), "config/BetaPlus.properties");
@@ -20,11 +20,12 @@ final class BetaPlusConfig {
             if (file.isFile()) { FileInputStream in = new FileInputStream(file); try { p.load(in); } finally { in.close(); } }
             enabled = Boolean.parseBoolean(p.getProperty("enabled", "true"));
             coordinates = Boolean.parseBoolean(p.getProperty("coordinates", "true"));
-            size = clamp(integer(p, "size", 50), 40, 160);
+            size = clamp(integer(p, "size", 70), 40, 160);
             // Migrate historical defaults once; preserve other configured sizes.
             int sizeVersion = integer(p, "sizeVersion", 0);
             if (sizeVersion < 1 && size == 96) size = 80;
             if (sizeVersion < 2 && size == 80) size = 50;
+            if (sizeVersion < 3 && size == 50) size = 70;
             int z = integer(p, "zoom", 2); zoom = z == 1 || z == 2 || z == 4 ? z : 2;
             key = clamp(integer(p, "key", Keyboard.KEY_M), 1, 255);
             try { opacity = Float.parseFloat(p.getProperty("opacity", "0.9")); } catch (NumberFormatException ignored) { opacity = 0.9F; }
@@ -38,7 +39,7 @@ final class BetaPlusConfig {
     void save() {
         Properties p = new Properties();
         p.setProperty("enabled", Boolean.toString(enabled)); p.setProperty("size", Integer.toString(size));
-        p.setProperty("sizeVersion", "2");
+        p.setProperty("sizeVersion", "3");
         p.setProperty("coordinates", Boolean.toString(coordinates));
         p.setProperty("zoom", Integer.toString(zoom)); p.setProperty("position", position);
         p.setProperty("opacity", Float.toString(opacity)); p.setProperty("key", Integer.toString(key));
