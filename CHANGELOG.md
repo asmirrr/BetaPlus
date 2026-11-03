@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 1.0.0
+
+- First release: surface minimap and coordinates HUD for Beta 1.7.3 with ModLoader. Waypoints and death markers remain planned.
+
 - Reduced the compass label size and removed the redundant direction from the smaller coordinate readout.
 
 - Set the default minimap size to 70 by 70 GUI pixels.

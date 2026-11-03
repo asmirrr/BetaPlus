@@ -2,7 +2,7 @@
 
 BetaPlus is a planned client-side quality-of-life mod for Minecraft Java Edition Beta 1.7.3. Its first release is intended to include a minimap, waypoints, coordinates, death markers, and configurable controls.
 
-**Status: 0.3 development preview.** A north-up surface minimap and coordinates HUD are implemented. They have been seen in a local single-player development client; control, sustained movement, performance, multiplayer, and installed-build testing remain incomplete. No release is available yet.
+**Version 1.0.0:** a client-side surface minimap and coordinate HUD for Minecraft Java Edition Beta 1.7.3. Waypoints and death markers are planned, not included. The release ZIP has been loaded in an isolated obfuscated Beta client with the ModLoader fix; launcher-specific installation and multiplayer compatibility have not been verified.
 
 ## Minimap and controls
 
@@ -16,7 +16,16 @@ The default map size is 70 pixels. On upgrading, previous default sizes of 50, 8
 
 ## Installation
 
-No tested installable release is available. Development builds produce the reobfuscated mod classes in `mcp/minecraft/reobf`; a normal-launcher installation still needs verification with the matching Beta 1.7.3 ModLoader before release.
+Use a separate Beta 1.7.3 instance and back up your worlds. Each player needs Minecraft Java Edition and a launcher that supports historical versions.
+
+1. In [Prism Launcher](https://prismlauncher.org/), sign in with your Minecraft account and create an instance for **Beta 1.7.3** (enable Beta versions in the version picker). Select a Java 8 runtime for the instance.
+2. Download [ModLoader Fix b1.7.3 1.0.0](https://github.com/coffeenotfound/ModloaderFix-b1.7.3/releases/tag/v1.0.0). In the instance's **Edit → Version**, use **Add to Minecraft.jar** to add the ModLoader fix JAR. It is the complete loader; do not install a second copy of ModLoader.
+3. Download `BetaPlus-1.0.0.zip` from the [BetaPlus releases](https://github.com/asmirrr/BetaPlus/releases). Open the instance's Minecraft folder and put the ZIP, without extracting it, in its `mods` folder (create that folder if needed).
+4. Launch the instance and enter a world. Press M to toggle the map; F3 hides it while debug information is shown.
+
+The ZIP is a ModLoader mod, not a Fabric or Forge mod. The above Prism workflow has not been personally tested; the ZIP was tested in a separate obfuscated Beta client with the same ModLoader fix and Java 8. If the game fails to start, check the instance log and confirm the version and loader before adding other mods.
+
+To package a build after recompiling and reobfuscating in the local workspace, run `./scripts/package-release.ps1` from PowerShell. It writes `build/BetaPlus-1.0.0.zip` and reports its SHA-256; move an existing ZIP aside before rebuilding.
 
 ## Development approach
 
@@ -54,8 +63,8 @@ No screenshots yet.
 
 ## Known issues
 
-- The development smoke test used RetroMCP's development launcher; an installed, reobfuscated build has not yet been tested.
+- The release ZIP was tested in an isolated obfuscated client, but the Prism Launcher installation steps have not been tested.
 - Zoom and toggle controls, movement, turning, and performance still need thorough playtesting. Fast movement can leave temporary gaps while the cache catches up.
 - The surface sampler is approximate: tall foliage, transparent blocks, caves and the Nether may not be represented accurately. Unloaded chunks remain blank.
-- There is no tested installable build, configuration menu, or release yet.
+- There is no configuration menu; edit the properties file while the game is closed.
 - Compatibility with other mods and multiplayer is untested.
