@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Reduced the default minimap size to 80 pixels and hide the minimap and coordinates while F3 debug information is displayed.
+
 - Moved the coordinates readout beneath the minimap and expanded the terrain sample grid for a more detailed, wider view.
 
 ### 0.3.0-dev

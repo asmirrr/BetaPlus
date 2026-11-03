@@ -24,7 +24,7 @@ public final class mod_BetaPlus extends BaseMod {
     public boolean OnTickInGame(Minecraft game) {
         if (game.thePlayer != null && game.theWorld != null) {
             if (config.enabled) map.update(game);
-            if (game.currentScreen == null && !game.gameSettings.hideGUI) {
+            if (game.currentScreen == null && !game.gameSettings.hideGUI && !game.gameSettings.showDebugInfo) {
                 if (config.enabled) map.draw(game);
                 if (config.coordinates) coordinateHud.draw(game, config);
             }
