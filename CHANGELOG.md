@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added an optional FPS and in-game clock readout, toggled with V.
+
 ## 1.0.0
 
 - First release: surface minimap and coordinates HUD for Beta 1.7.3 with ModLoader. Waypoints and death markers remain planned.

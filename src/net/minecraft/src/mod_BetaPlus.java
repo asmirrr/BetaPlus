@@ -10,6 +10,7 @@ public final class mod_BetaPlus extends BaseMod {
     private final KeyBinding zoomIn = new KeyBinding("BetaPlus zoom in", Keyboard.KEY_EQUALS);
     private final KeyBinding zoomOut = new KeyBinding("BetaPlus zoom out", Keyboard.KEY_MINUS);
     private final KeyBinding coordinates = new KeyBinding("BetaPlus coordinates", Keyboard.KEY_C);
+    private final KeyBinding status = new KeyBinding("BetaPlus FPS and clock", Keyboard.KEY_V);
     private final BetaPlusCoordinates coordinateHud = new BetaPlusCoordinates();
     public mod_BetaPlus() {
         config.load();
@@ -18,6 +19,7 @@ public final class mod_BetaPlus extends BaseMod {
         ModLoader.RegisterKey(this, zoomIn, false);
         ModLoader.RegisterKey(this, zoomOut, false);
         ModLoader.RegisterKey(this, coordinates, false);
+        ModLoader.RegisterKey(this, status, false);
         ModLoader.SetInGameHook(this, true, false);
         System.out.println("[BetaPlus] ModLoader initialized BetaPlus 1.0.0");
     }
@@ -26,7 +28,7 @@ public final class mod_BetaPlus extends BaseMod {
             if (config.enabled) map.update(game);
             if (game.currentScreen == null && !game.gameSettings.hideGUI && !game.gameSettings.showDebugInfo) {
                 if (config.enabled) map.draw(game);
-                if (config.coordinates) coordinateHud.draw(game, config);
+                if (config.coordinates || config.status) coordinateHud.draw(game, config);
             }
         }
         return true;
@@ -35,6 +37,7 @@ public final class mod_BetaPlus extends BaseMod {
         if (ModLoader.getMinecraftInstance().currentScreen != null) return;
         if (key == toggle) config.enabled = !config.enabled;
         else if (key == coordinates) config.coordinates = !config.coordinates;
+        else if (key == status) config.status = !config.status;
         else if (key == zoomIn) config.zoom = Math.max(1, config.zoom / 2);
         else if (key == zoomOut) config.zoom = Math.min(4, config.zoom * 2);
         config.save();

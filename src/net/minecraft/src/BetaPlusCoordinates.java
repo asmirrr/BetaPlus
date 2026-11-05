@@ -11,7 +11,16 @@ final class BetaPlusCoordinates {
         int z = MathHelper.floor_double(mc.thePlayer.posZ);
         ScaledResolution screen = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
         int mapSize = Math.min(config.size, Math.min(screen.getScaledWidth() - 20, screen.getScaledHeight() - 20));
-        String text = "X: " + x + "  Y: " + y + "  Z: " + z;
+        String text = config.coordinates ? "X: " + x + "  Y: " + y + "  Z: " + z : "";
+        if (config.status) {
+            long time = ((mc.theWorld.getWorldTime() % 24000L) + 24000L) % 24000L;
+            int minutes = (int)((time * 60L / 1000L + 360L) % 1440L);
+            String fps = mc.debug == null ? "" : mc.debug;
+            int end = fps.indexOf(" fps");
+            fps = end > 0 ? fps.substring(0, end) + " FPS" : "FPS --";
+            String clock = (minutes / 60 < 10 ? "0" : "") + minutes / 60 + ":" + (minutes % 60 < 10 ? "0" : "") + minutes % 60;
+            text += (config.coordinates ? "  " : "") + fps + "  " + clock;
+        }
         int mapX = config.position.endsWith("right") ? screen.getScaledWidth() - mapSize - 8 : 8;
         int mapY = config.position.startsWith("bottom") ? screen.getScaledHeight() - mapSize - 8 : 8;
         float textScale = 0.75F;
