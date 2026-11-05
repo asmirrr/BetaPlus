@@ -7,7 +7,7 @@ public final class mod_BetaPlus extends BaseMod {
     private final BetaPlusConfig config = new BetaPlusConfig();
     private final BetaPlusMap map = new BetaPlusMap(config);
     private final BetaPlusWaypoints waypoints = new BetaPlusWaypoints();
-    private final KeyBinding addWaypoint = new KeyBinding("BetaPlus add waypoint", Keyboard.KEY_B);
+    private final KeyBinding addWaypoint = new KeyBinding("BetaPlus waypoints", Keyboard.KEY_B);
     private final KeyBinding toggle;
     private final KeyBinding zoomIn = new KeyBinding("BetaPlus zoom in", Keyboard.KEY_EQUALS);
     private final KeyBinding zoomOut = new KeyBinding("BetaPlus zoom out", Keyboard.KEY_MINUS);
@@ -39,7 +39,7 @@ public final class mod_BetaPlus extends BaseMod {
     }
     public void KeyboardEvent(KeyBinding key) {
         if (ModLoader.getMinecraftInstance().currentScreen != null) return;
-        if (key == addWaypoint) { waypoints.add(ModLoader.getMinecraftInstance()); return; }
+        if (key == addWaypoint) { Minecraft game = ModLoader.getMinecraftInstance(); if (game.theWorld != null && game.thePlayer != null) { waypoints.update(game); game.displayGuiScreen(new BetaPlusWaypointScreen(waypoints)); } return; }
         if (key == toggle) config.enabled = !config.enabled;
         else if (key == coordinates) config.coordinates = !config.coordinates;
         else if (key == status) config.status = !config.status;

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added a single-player waypoint manager with names, distance, visibility, deletion confirmation, and off-map edge markers. In-game verification remains pending.
+
 - Added initial single-player waypoint creation and save/dimension-specific persistence. Management and multiplayer support remain unfinished and the feature requires in-game testing.
 
 - Added an optional FPS and in-game clock readout, toggled with V.

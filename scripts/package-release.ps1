@@ -2,7 +2,7 @@ param([string]$McpPath = (Join-Path $PSScriptRoot '..\mcp'))
 $ErrorActionPreference = 'Stop'
 $repo = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $reobf = Join-Path $McpPath 'minecraft\reobf'
-$files = @('mod_BetaPlus.class', 'BetaPlusConfig.class', 'BetaPlusCoordinates.class', 'BetaPlusMap.class', 'BetaPlusWaypoints.class', 'BetaPlusWaypoints$Point.class')
+$files = @('mod_BetaPlus.class', 'BetaPlusConfig.class', 'BetaPlusCoordinates.class', 'BetaPlusMap.class', 'BetaPlusWaypoints.class', 'BetaPlusWaypoints$Point.class', 'BetaPlusWaypointScreen.class')
 foreach ($file in $files) {
     if (-not (Test-Path -LiteralPath (Join-Path $reobf $file) -PathType Leaf)) { throw "Missing reobfuscated class: $file. Recompile and reobfuscate first." }
 }
