@@ -61,7 +61,7 @@ final class BetaPlusMap extends Gui {
     }
     private static int align(int value, int zoom) { return MathHelper.floor_double((double)value / zoom) * zoom; }
     private int slot(int x, int z) { return (x & 511) | ((z & 511) << 9); }
-    void draw(Minecraft mc) {
+    void draw(Minecraft mc, BetaPlusWaypoints waypoints) {
         ScaledResolution screen = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
         int size = Math.min(config.size, Math.min(screen.getScaledWidth() - 20, screen.getScaledHeight() - 20));
         if (size < 32) return;
@@ -102,6 +102,14 @@ final class BetaPlusMap extends Gui {
                 t.addVertex(x0, y1, 0); t.addVertex(x1, y1, 0); t.addVertex(x1, y0, 0); t.addVertex(x0, y0, 0);
             }
             t.draw();
+            for (BetaPlusWaypoints.Point point : waypoints.points) {
+                double px = x + size / 2.0 + (point.x - playerX) / config.zoom * cellSize;
+                double py = y + size / 2.0 + (point.z - playerZ) / config.zoom * cellSize;
+                if (px >= x + 2 && px < x + size - 2 && py >= y + 2 && py < y + size - 2) {
+                    drawRect((int)px - 2, (int)py - 2, (int)px + 3, (int)py + 3, 0xFF000000);
+                    drawRect((int)px - 1, (int)py - 1, (int)px + 2, (int)py + 2, 0xFFFFFF55);
+                }
+            }
             GL11.glDisable(GL11.GL_SCISSOR_TEST);
             int mx = x + size / 2, my = y + size / 2;
             GL11.glPushMatrix();

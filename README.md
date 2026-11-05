@@ -4,6 +4,8 @@ BetaPlus is a planned client-side quality-of-life mod for Minecraft Java Edition
 
 **Version 1.0.0:** a client-side surface minimap and coordinate HUD for Minecraft Java Edition Beta 1.7.3. Waypoints and death markers are planned, not included. The release ZIP has been loaded in an isolated obfuscated Beta client with the ModLoader fix; launcher-specific installation and multiplayer compatibility have not been verified.
 
+The unreleased development version includes an initial single-player waypoint feature: press **B** to add a yellow minimap marker at your current position. Markers are stored per save and dimension. Multiplayer, naming, editing, deletion, distance display and waypoint management are not implemented yet. The development waypoint feature has not been verified in-game.
+
 ## Minimap and controls
 
 The map displays sampled terrain using Beta's map colors and simple height shading, a pixel-style player arrow, and cardinal directions. The coordinate readout uses Minecraft's font beneath the map (or above it when the map is at the bottom of the screen). Both hide while a screen or the F3 debug display is open, or the HUD is hidden. The map uses a 64-by-64 sample grid; sampling is limited to 96 columns per world tick and only queries loaded chunks. A world-coordinate cache reuses samples as the player moves and clears on a world change. Newly revealed areas can take a little time to fill in.
@@ -25,7 +27,7 @@ Use a separate Beta 1.7.3 instance and back up your worlds. Each player needs Mi
 
 The ZIP is a ModLoader mod, not a Fabric or Forge mod. The above Prism workflow has not been personally tested; the ZIP was tested in a separate obfuscated Beta client with the same ModLoader fix and Java 8. If the game fails to start, check the instance log and confirm the version and loader before adding other mods.
 
-To package a build after recompiling and reobfuscating in the local workspace, run `./scripts/package-release.ps1` from PowerShell. It writes `build/BetaPlus-1.0.0.zip` and reports its SHA-256; move an existing ZIP aside before rebuilding.
+To package the current development build after recompiling and reobfuscating in the local workspace, run `./scripts/package-release.ps1` from PowerShell. It writes `build/BetaPlus-dev.zip` and reports its SHA-256; move an existing ZIP aside before rebuilding.
 
 ## Development approach
 
