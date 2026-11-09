@@ -111,7 +111,7 @@ final class BetaPlusMap extends Gui {
                 if (extent > limit) { dx *= limit / extent; dy *= limit / extent; }
                 px = x + size / 2.0 + dx; py = y + size / 2.0 + dy;
                 drawRect((int)px - 2, (int)py - 2, (int)px + 3, (int)py + 3, 0xFF000000);
-                drawRect((int)px - 1, (int)py - 1, (int)px + 2, (int)py + 2, 0xFFFFFF55);
+                drawRect((int)px - 1, (int)py - 1, (int)px + 2, (int)py + 2, point.death ? 0xFFFF5555 : 0xFFFFFF55);
             }
             GL11.glDisable(GL11.GL_SCISSOR_TEST);
             int mx = x + size / 2, my = y + size / 2;

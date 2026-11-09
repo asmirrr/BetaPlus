@@ -14,7 +14,8 @@ final class BetaPlusWaypoints {
         final int x, y, z;
         String name;
         boolean visible;
-        Point(int x, int y, int z, String name, boolean visible) { this.x = x; this.y = y; this.z = z; this.name = name; this.visible = visible; }
+        final boolean death;
+        Point(int x, int y, int z, String name, boolean visible, boolean death) { this.x = x; this.y = y; this.z = z; this.name = name; this.visible = visible; this.death = death; }
     }
     final List<Point> points = new ArrayList<Point>();
     private World world;
@@ -40,7 +41,7 @@ final class BetaPlusWaypoints {
                 if (values.length != 3) throw new IllegalArgumentException("invalid waypoint");
                 String name = data.getProperty("name." + i, "Waypoint " + (i + 1));
                 if (name.trim().length() == 0 || name.length() > 32) throw new IllegalArgumentException("invalid waypoint name");
-                points.add(new Point(Integer.parseInt(values[0]), Integer.parseInt(values[1]), Integer.parseInt(values[2]), name, Boolean.parseBoolean(data.getProperty("visible." + i, "true"))));
+                points.add(new Point(Integer.parseInt(values[0]), Integer.parseInt(values[1]), Integer.parseInt(values[2]), name, Boolean.parseBoolean(data.getProperty("visible." + i, "true")), Boolean.parseBoolean(data.getProperty("death." + i, "false"))));
             }
         } catch (Exception e) {
             points.clear(); writable = false;
@@ -51,7 +52,16 @@ final class BetaPlusWaypoints {
     boolean add(Minecraft mc, String name) {
         update(mc);
         if (!writable || points.size() >= 256 || name.trim().isEmpty()) return false;
-        points.add(new Point(MathHelper.floor_double(mc.thePlayer.posX), MathHelper.floor_double(mc.thePlayer.boundingBox.minY), MathHelper.floor_double(mc.thePlayer.posZ), name.trim(), true));
+        points.add(new Point(MathHelper.floor_double(mc.thePlayer.posX), MathHelper.floor_double(mc.thePlayer.boundingBox.minY), MathHelper.floor_double(mc.thePlayer.posZ), name.trim(), true, false));
+        if (!save()) { points.remove(points.size() - 1); return false; }
+        return true;
+    }
+    boolean addDeath(Minecraft mc) {
+        update(mc);
+        if (!writable || points.size() >= 256) return false;
+        int number = 1;
+        for (Point p : points) if (p.death) number++;
+        points.add(new Point(MathHelper.floor_double(mc.thePlayer.posX), MathHelper.floor_double(mc.thePlayer.boundingBox.minY), MathHelper.floor_double(mc.thePlayer.posZ), "Death " + number, true, true));
         if (!save()) { points.remove(points.size() - 1); return false; }
         return true;
     }
@@ -79,6 +89,7 @@ final class BetaPlusWaypoints {
         for (int i = 0; i < points.size(); i++) {
             Point p = points.get(i); data.setProperty("point." + i, p.x + "," + p.y + "," + p.z);
             data.setProperty("name." + i, p.name); data.setProperty("visible." + i, Boolean.toString(p.visible));
+            data.setProperty("death." + i, Boolean.toString(p.death));
         }
         File temp = new File(file.getParentFile(), file.getName() + ".tmp");
         try {

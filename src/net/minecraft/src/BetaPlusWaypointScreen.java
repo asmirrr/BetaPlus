@@ -22,7 +22,7 @@ final class BetaPlusWaypointScreen extends GuiScreen {
                 int index = page * PAGE_SIZE + i;
                 if (index < waypoints.points.size()) {
                     BetaPlusWaypoints.Point p = waypoints.points.get(index);
-                    String prefix = (selected == index ? "> " : "") + (p.visible ? "" : "[hidden] ");
+                    String prefix = (selected == index ? "> " : "") + (p.visible ? "" : "[hidden] ") + (p.death ? "[death] " : "");
                     String suffix = "  " + (int)waypoints.distance(mc, p) + "m";
                     String name = p.name;
                     while (name.length() > 1 && fontRenderer.getStringWidth(prefix + name + suffix) > 225) name = name.substring(0, name.length() - 1);

@@ -14,6 +14,8 @@ public final class mod_BetaPlus extends BaseMod {
     private final KeyBinding coordinates = new KeyBinding("BetaPlus coordinates", Keyboard.KEY_C);
     private final KeyBinding status = new KeyBinding("BetaPlus FPS and clock", Keyboard.KEY_V);
     private final BetaPlusCoordinates coordinateHud = new BetaPlusCoordinates();
+    private EntityPlayer observedPlayer;
+    private boolean deathHandled;
     public mod_BetaPlus() {
         config.load();
         toggle = new KeyBinding("BetaPlus minimap", config.key);
@@ -29,6 +31,12 @@ public final class mod_BetaPlus extends BaseMod {
     public boolean OnTickInGame(Minecraft game) {
         if (game.thePlayer != null && game.theWorld != null) {
             waypoints.update(game);
+            if (observedPlayer != game.thePlayer) { observedPlayer = game.thePlayer; deathHandled = false; }
+            if (game.thePlayer.health > 0) deathHandled = false;
+            else if (!deathHandled) {
+                deathHandled = true;
+                if (!game.isMultiplayerWorld() && !waypoints.addDeath(game)) System.err.println("[BetaPlus] Death marker could not be saved.");
+            }
             if (config.enabled) map.update(game);
             if (game.currentScreen == null && !game.gameSettings.hideGUI && !game.gameSettings.showDebugInfo) {
                 if (config.enabled) map.draw(game, waypoints);

@@ -4,7 +4,7 @@ BetaPlus is a planned client-side quality-of-life mod for Minecraft Java Edition
 
 **Version 1.0.0:** a client-side surface minimap and coordinate HUD for Minecraft Java Edition Beta 1.7.3. Waypoints and death markers are planned, not included. The release ZIP has been loaded in an isolated obfuscated Beta client with the ModLoader fix; launcher-specific installation and multiplayer compatibility have not been verified.
 
-The unreleased development version includes single-player waypoints. Press **B** to open the manager, then choose **Add** and enter a name to mark your current position. Select a waypoint to rename, show or hide it, or delete it (deletion requires a second click). The list shows straight-line distances in blocks. Visible yellow markers appear on the map; markers beyond its edge are shown at the edge in their direction. Waypoints are stored per save and dimension. Multiplayer waypoints are not supported. The manager has not yet been verified in-game.
+The unreleased development version includes single-player waypoints. Press **B** to open the manager, then choose **Add** and enter a name to mark your current position. Select a waypoint to rename, show or hide it, or delete it (deletion requires a second click). The list shows straight-line distances in blocks. Visible yellow markers appear on the map; markers beyond its edge are shown at the edge in their direction. An automatic death marker is displayed in red and can be managed in the same screen. Waypoints and death markers are stored per save and dimension. Multiplayer markers are not supported. The manager and death detection have not yet been verified in-game.
 
 ## Minimap and controls
 
