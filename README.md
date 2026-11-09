@@ -2,9 +2,9 @@
 
 BetaPlus is a planned client-side quality-of-life mod for Minecraft Java Edition Beta 1.7.3. Its first release is intended to include a minimap, waypoints, coordinates, death markers, and configurable controls.
 
-**Version 1.0.0:** a client-side surface minimap and coordinate HUD for Minecraft Java Edition Beta 1.7.3. Waypoints and death markers are planned, not included. The release ZIP has been loaded in an isolated obfuscated Beta client with the ModLoader fix; launcher-specific installation and multiplayer compatibility have not been verified.
+**Version 1.1.0:** a client-side minimap, coordinate HUD, and single-player waypoint and death-marker system for Minecraft Java Edition Beta 1.7.3. Launcher-specific installation and multiplayer compatibility have not been verified.
 
-The unreleased development version includes single-player waypoints. Press **B** to open the manager, then choose **Add** and enter a name to mark your current position. Select a waypoint to rename, show or hide it, or delete it (deletion requires a second click). The list shows straight-line distances in blocks. Visible yellow markers appear on the map; markers beyond its edge are shown at the edge in their direction. An automatic death marker is displayed in red and can be managed in the same screen. Waypoints and death markers are stored per save and dimension. Multiplayer markers are not supported. The manager and death detection have not yet been verified in-game.
+Press **B** in single-player to open the waypoint manager, then choose **Add** and enter a name to mark your current position. Select a waypoint to rename, show or hide it, or delete it (deletion requires a second click). The list shows straight-line distances in blocks. Visible yellow markers appear on the map; markers beyond its edge are shown at the edge in their direction. An automatic death marker is displayed in red and can be managed in the same screen. Waypoints and death markers are stored per save and dimension. Multiplayer markers are not supported. The manager and death detection need further in-game testing.
 
 ## Minimap and controls
 
@@ -22,12 +22,12 @@ Use a separate Beta 1.7.3 instance and back up your worlds. Each player needs Mi
 
 1. In [Prism Launcher](https://prismlauncher.org/), sign in with your Minecraft account and create an instance for **Beta 1.7.3** (enable Beta versions in the version picker). Select a Java 8 runtime for the instance.
 2. Download [ModLoader Fix b1.7.3 1.0.0](https://github.com/coffeenotfound/ModloaderFix-b1.7.3/releases/tag/v1.0.0). In the instance's **Edit → Version**, use **Add to Minecraft.jar** to add the ModLoader fix JAR. It is the complete loader; do not install a second copy of ModLoader.
-3. Download `BetaPlus-1.0.0.zip` from the [BetaPlus releases](https://github.com/asmirrr/BetaPlus/releases). Open the instance's Minecraft folder and put the ZIP, without extracting it, in its `mods` folder (create that folder if needed).
+3. Download `BetaPlus-1.1.0.zip` from the [BetaPlus releases](https://github.com/asmirrr/BetaPlus/releases). Open the instance's Minecraft folder and put the ZIP, without extracting it, in its `mods` folder (create that folder if needed).
 4. Launch the instance and enter a world. Press M to toggle the map; F3 hides it while debug information is shown.
 
 The ZIP is a ModLoader mod, not a Fabric or Forge mod. The above Prism workflow has not been personally tested; the ZIP was tested in a separate obfuscated Beta client with the same ModLoader fix and Java 8. If the game fails to start, check the instance log and confirm the version and loader before adding other mods.
 
-To package the current development build after recompiling and reobfuscating in the local workspace, run `./scripts/package-release.ps1` from PowerShell. It writes `build/BetaPlus-dev.zip` and reports its SHA-256; move an existing ZIP aside before rebuilding.
+To package the build after recompiling and reobfuscating in the local workspace, run `./scripts/package-release.ps1` from PowerShell. It writes `build/BetaPlus-1.1.0.zip` and reports its SHA-256; move an existing ZIP aside before rebuilding.
 
 ## Development approach
 

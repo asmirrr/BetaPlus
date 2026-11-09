@@ -26,7 +26,7 @@ public final class mod_BetaPlus extends BaseMod {
         ModLoader.RegisterKey(this, status, false);
         ModLoader.RegisterKey(this, addWaypoint, false);
         ModLoader.SetInGameHook(this, true, false);
-        System.out.println("[BetaPlus] ModLoader initialized BetaPlus 1.0.0");
+        System.out.println("[BetaPlus] ModLoader initialized BetaPlus 1.1.0");
     }
     public boolean OnTickInGame(Minecraft game) {
         if (game.thePlayer != null && game.theWorld != null) {
@@ -55,5 +55,5 @@ public final class mod_BetaPlus extends BaseMod {
         else if (key == zoomOut) config.zoom = Math.min(4, config.zoom * 2);
         config.save();
     }
-    public String Version() { return "1.0.0"; }
+    public String Version() { return "1.1.0"; }
 }

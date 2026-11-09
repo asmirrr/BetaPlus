@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.1.0
 
 - Added automatic single-player death markers to the waypoint manager and minimap. Death detection and persistence still require an in-game playtest.
 
