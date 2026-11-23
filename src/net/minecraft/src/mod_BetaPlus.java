@@ -14,6 +14,7 @@ public final class mod_BetaPlus extends BaseMod {
     private final KeyBinding coordinates = new KeyBinding("BetaPlus coordinates", Keyboard.KEY_C);
     private final KeyBinding status = new KeyBinding("BetaPlus FPS and clock", Keyboard.KEY_V);
     private final BetaPlusCoordinates coordinateHud = new BetaPlusCoordinates();
+    private final BetaPlusWaypointHud waypointHud = new BetaPlusWaypointHud();
     private EntityPlayer observedPlayer;
     private boolean deathHandled;
     public mod_BetaPlus() {
@@ -41,6 +42,7 @@ public final class mod_BetaPlus extends BaseMod {
             if (game.currentScreen == null && !game.gameSettings.hideGUI && !game.gameSettings.showDebugInfo) {
                 if (config.enabled) map.draw(game, waypoints);
                 if (config.coordinates || config.status) coordinateHud.draw(game, config);
+                waypointHud.draw(game, waypoints);
             }
         }
         return true;

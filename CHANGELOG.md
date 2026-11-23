@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Added on-screen heading and distance cues for the five nearest visible waypoints and death markers. Rendering was observed in the development client; deletion and visibility changes still need an in-game test.
+
 ## 1.1.0
 
 - Added automatic single-player death markers to the waypoint manager and minimap. Death detection and persistence still require an in-game playtest.

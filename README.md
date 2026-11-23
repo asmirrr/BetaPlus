@@ -6,6 +6,8 @@ BetaPlus is a planned client-side quality-of-life mod for Minecraft Java Edition
 
 Press **B** in single-player to open the waypoint manager, then choose **Add** and enter a name to mark your current position. Select a waypoint to rename, show or hide it, or delete it (deletion requires a second click). The list shows straight-line distances in blocks. Visible yellow markers appear on the map; markers beyond its edge are shown at the edge in their direction. An automatic death marker is displayed in red and can be managed in the same screen. Waypoints and death markers are stored per save and dimension. Multiplayer markers are not supported. The manager and death detection need further in-game testing.
 
+In the development version, the five nearest visible waypoints also appear at the top of the screen with their distance. The arrows indicate whether to turn left, turn right, or continue ahead. Hiding or deleting a waypoint removes its indicator. HUD rendering has been observed in the development client; removal behavior still needs an in-game test. These cues are not in the 1.1.0 release ZIP.
+
 ## Minimap and controls
 
 The map displays sampled terrain using Beta's map colors and simple height shading, a pixel-style player arrow, and cardinal directions. The coordinate readout uses Minecraft's font beneath the map (or above it when the map is at the bottom of the screen). Both hide while a screen or the F3 debug display is open, or the HUD is hidden. The map uses a 64-by-64 sample grid; sampling is limited to 96 columns per world tick and only queries loaded chunks. A world-coordinate cache reuses samples as the player moves and clears on a world change. Newly revealed areas can take a little time to fill in.
@@ -27,7 +29,7 @@ Use a separate Beta 1.7.3 instance and back up your worlds. Each player needs Mi
 
 The ZIP is a ModLoader mod, not a Fabric or Forge mod. The above Prism workflow has not been personally tested; the ZIP was tested in a separate obfuscated Beta client with the same ModLoader fix and Java 8. If the game fails to start, check the instance log and confirm the version and loader before adding other mods.
 
-To package the build after recompiling and reobfuscating in the local workspace, run `./scripts/package-release.ps1` from PowerShell. It writes `build/BetaPlus-1.1.0.zip` and reports its SHA-256; move an existing ZIP aside before rebuilding.
+To package the development build after recompiling and reobfuscating in the local workspace, run `./scripts/package-release.ps1` from PowerShell. It writes `build/BetaPlus-dev.zip` and reports its SHA-256; move an existing ZIP aside before rebuilding.
 
 ## Development approach
 
