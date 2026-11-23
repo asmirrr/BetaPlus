@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.2.0
 
 - Added on-screen heading and distance cues for the five nearest visible waypoints and death markers. Rendering was observed in the development client; deletion and visibility changes still need an in-game test.
 
